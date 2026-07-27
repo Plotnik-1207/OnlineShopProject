@@ -1,0 +1,38 @@
+services:
+  php:
+    build: .
+    container_name: shop_php
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/var/www/html
+      - ./.env:/var/www/html/.env
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: shop_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shop
+      MYSQL_USER: shop_user
+      MYSQL_PASSWORD: shop_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: shop_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql
