@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . '/../../config/database.php');
 
-function getProduct($id)
+function getProductById($id)
 {
     $pdo = connectDatabase();
 
@@ -11,7 +11,7 @@ function getProduct($id)
     return $result;
 }
 
-function getProductCategory($id)
+function getProductCategoryByProductId($id)
 {
     $pdo = connectDatabase();
 
@@ -21,7 +21,7 @@ function getProductCategory($id)
     return $result;
 }
 
-function getProductImages($id)
+function getProductImagesByProductId($id)
 {
     $pdo = connectDatabase();
 
@@ -31,7 +31,7 @@ function getProductImages($id)
     return $result;
 }
 
-function getProductVariants($id)
+function getProductVariantsByProductId($id)
 {
     $pdo = connectDatabase();
 
@@ -43,12 +43,14 @@ function getProductVariants($id)
 
 function showProduct($id)
 {
-    $pdo = connectDatabase();
-
-    $result = getProduct($id);
-    $result['category'] = getProductCategory($id);
-    $result['images'] = getProductImages($id);
-    $result['variants'] = getProductVariants($id);
+    $result = getProductById($id);
+    if (!$result) {
+        console_log($result);
+        return;
+    }
+    $result['category'] = getProductCategoryByProductId($result['category_id']);
+    $result['images'] = getProductImagesByProductId($id);
+    $result['variants'] = getProductVariantsByProductId($id);
 
     if ($result) {
         require __DIR__ . '/../../views/product.php';

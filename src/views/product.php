@@ -17,7 +17,11 @@
     <h1><?= htmlspecialchars($result['name']) ?></h1>
     <h2>Производитель: <?= htmlspecialchars($result['manufacturer']) ?></h2>
     <h2>id категории: <?= htmlspecialchars($result['category_id']) ?></h2>
-    <img src="<?= $result['images'][0]['img_url'] ?>" style="max-width: 25%; height: auto;">
+    <? foreach ($result['images'] as $image) {
+    ?>
+        <img src="<?= $image['img_url'] ?>" style="max-width: 25%; height: auto;">
+    <?
+    } ?>
     <table>
         <tr>
             <th>Цвет</th>
