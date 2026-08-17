@@ -1,19 +1,19 @@
 <?php
 require_once(__DIR__ . '/../../config/database.php');
 
-function getCategoryById($id)
+function getCategoryByParentId($parent_id)
 {
     $pdo = connectDatabase();
 
-    $sql = $pdo->prepare('SELECT * FROM categories WHERE id = ?');
-    $sql->execute([$id]);
-    $result = $sql->fetch();
+    $sql = $pdo->prepare('SELECT * FROM categories WHERE parent_id = ?');
+    $sql->execute([$parent_id]);
+    $result = $sql->fetchAll();
     return $result;
 }
 
-function showProduct($id)
+function showCategories($parent_id)
 {
-    $result = getCategoryById($id);
+    $result = getCategoryById($parent_id);
     if (!$result) {
         console_log($result);
         return;

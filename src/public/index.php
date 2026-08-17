@@ -11,7 +11,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 require_once(__DIR__ . '/../src/Controllers/product.php');
-require_once(__DIR__ . '/../src/Controllers/category.php');
+require_once(__DIR__ . '/../src/Controllers/catalog.php');
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -24,21 +24,19 @@ switch ($segments[0]) {
     case 'faq':
         echo "О нас";
         break;
-    case 'categories':
-        echo "Категории товаров";
-        break;
     case 'catalog':
         if (count($segments) > 1) {
-            showProductsByCategoryId($segments[1]);
+            catalogHandle($segments[1]);
         } else {
-            echo "Товары";
+            catalogHandle(null);
         }
         break;
     case 'product':
         if (count($segments) > 1) {
             showProduct($segments[1]);
         } else {
-            echo "Категории товаров";
+            header('Location: /catalog/', true, 301);
+            exit;
         }
         break;
     default:
