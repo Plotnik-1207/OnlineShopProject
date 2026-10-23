@@ -5,41 +5,33 @@
 <!DOCTYPE html>
 <html lang="ru">
 <style>
-    table,
-    th,
-    td {
-        border: 1px solid black;
+    .grid-container {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        grid-template-rows: auto 1fr auto;
+        gap: 15px;
+        min-height: 100vh;
+    }
+
+    .grid-item {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border: 1px solid #ccc;
     }
 </style>
 
 <body>
-    <h5>Категория: <?= htmlspecialchars($result['category']['name']) ?></h5>
-    <h1><?= htmlspecialchars($result['name']) ?></h1>
-    <h2>Производитель: <?= htmlspecialchars($result['manufacturer']) ?></h2>
-    <h2>id категории: <?= htmlspecialchars($result['category_id']) ?></h2>
-    <? foreach ($result['images'] as $image) {
-    ?>
-        <img src="<?= $image['img_url'] ?>" style="max-width: 25%; height: auto;">
-    <?
-    } ?>
-    <table>
-        <tr>
-            <th>Цвет</th>
-            <th>Цена (руб.)</th>
-            <th>Размер</th>
-            <th>Наличие (шт.)</th>
-        </tr>
-        <? foreach ($result['variants'] as $variant) {
+    <div><?= htmlspecialchars($result['name']) ?></div>
+    <div class="grid-container">
+        <? foreach ($result['items'] as $category) {
         ?>
-            <tr>
-                <td><?= htmlspecialchars($variant['color']) ?></td>
-                <td><?= htmlspecialchars($variant['price']) ?></td>
-                <td><?= htmlspecialchars($variant['size']) ?></td>
-                <td><?= htmlspecialchars($variant['stock']) ?></td>
-            </tr>
+            <div class=".grid-item">
+                <img src="<?= $category['img_url'] ?>" onerror="this.onerror=null; this.src='<?= $GLOBALS['defaultImageSrc'] ?>';" style="max-width: 200px; height: 400px;">
+                <div><?= htmlspecialchars($category['name']) ?></div>
+            </div>
         <?
         } ?>
-    </table>
+    </div>
 </body>
 
 </html>

@@ -44,6 +44,10 @@ function getProductVariantsByProductId($id)
 function showProduct($id)
 {
     $result = getProductById($id);
+    if (empty($result)) {
+        header('Location: /catalog/', true, 301);
+        exit;
+    }
     if (!$result) {
         console_log($result);
         return;
